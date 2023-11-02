@@ -1,163 +1,212 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.web.project.mapper.BoardMapper">
 
-		<select id="getList" resultType="org.web.project.domain.BoardVO">
-			<![CDATA[
-			SELECT * FROM system.tbl_board where bno > 0
-			]]>
-		</select>
+<!--    <select id="getList" resultType="org.web.project.domain.BoardVO">-->
+<!--        <![CDATA[-->
+<!--			SELECT * FROM system.tbl_board where bno > 0-->
+<!--			]]>-->
+<!--    </select>-->
 
-		<insert id="insert">
-			<![CDATA[
-			INSERT INTO SYSTEM.TBL_BOARD(BNO, TITLE, CONTENT, WRITER)
-			VALUES (SYSTEM.SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{writer})
-			]]>
-		</insert>
+<!--    <insert id="insert">-->
+<!--        <![CDATA[-->
+<!--			INSERT INTO SYSTEM.TBL_BOARD(BNO, TITLE, CONTENT, WRITER)-->
+<!--			VALUES (SYSTEM.SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{writer})-->
+<!--			]]>-->
+<!--    </insert>-->
 
-		<insert id="insertSelectKey">
-			<selectKey keyProperty="bno" order="BEFORE"
-				 	  resultType="long">
-					SELECT SYSTEM.SEQ_BOARD.NEXTVAL FROM DUAL
-			</selectKey>
-		<![CDATA[
-			INSERT INTO SYSTEM.TBL_BOARD(BNO, TITLE, CONTENT, WRITER)
+<!--    <insert id="insertSelectKey">-->
+<!--        <selectKey keyProperty="bno" order="BEFORE"-->
+<!--                   resultType="long">-->
+<!--            SELECT SYSTEM.SEQ_BOARD.NEXTVAL FROM DUAL-->
+<!--        </selectKey>-->
+<!--        <![CDATA[-->
+<!--			INSERT INTO SYSTEM.TBL_BOARD(BNO, TITLE, CONTENT, WRITER)-->
+<!--			VALUES (#{bno}, #{title}, #{content}, #{writer})-->
+<!--			]]>-->
+<!--    </insert>-->
+
+<!--    <select id="read" resultType="org.web.project.domain.BoardVO">-->
+<!--        <![CDATA[-->
+<!--				SELECT *-->
+<!--				FROM SYSTEM.tbl_board-->
+<!--			]]>-->
+<!--        <where>-->
+<!--            <if test="bno != null">-->
+<!--                bno = #{bno}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+<!--    <delete id="delete">-->
+<!--        <![CDATA[-->
+<!--			delete from SYSTEM.tbl_board where bno=#{bno}-->
+<!--			]]>-->
+<!--    </delete>-->
+
+<!--    <update id="update">-->
+<!--        <![CDATA[-->
+<!--			update SYSTEM.tbl_board set title =#{title},content=#{content},writer=#{writer},updatedate=sysdate where bno=#{bno}-->
+<!--			]]>-->
+<!--    </update>-->
+
+	<!-- -->
+	<!-- -->
+	<!-- -->
+
+    <select id="getList" resultType="org.web.project.domain.BoardVO">
+        <![CDATA[
+			SELECT * FROM tbl_board where bno > 0
+			]]>
+    </select>
+
+    <insert id="insert">
+        <![CDATA[
+			INSERT INTO TBL_BOARD(BNO, TITLE, CONTENT, WRITER)
+			VALUES (SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{writer})
+			]]>
+    </insert>
+
+    <insert id="insertSelectKey">
+        <selectKey keyProperty="bno" order="BEFORE"
+                   resultType="long">
+            SELECT SEQ_BOARD.NEXTVAL FROM DUAL
+        </selectKey>
+        <![CDATA[
+			INSERT INTO TBL_BOARD(BNO, TITLE, CONTENT, WRITER)
 			VALUES (#{bno}, #{title}, #{content}, #{writer})
 			]]>
-		</insert>
+    </insert>
 
-		<select id="read" resultType="org.web.project.domain.BoardVO">
-			<![CDATA[
+    <select id="read" resultType="org.web.project.domain.BoardVO">
+        <![CDATA[
 				SELECT *
-				FROM SYSTEM.tbl_board
+				FROM tbl_board
 			]]>
-			<where>
-				<if test="bno != null">
-					bno = #{bno}
-				</if>
-			</where>
-		</select>
+        <where>
+            <if test="bno != null">
+                bno = #{bno}
+            </if>
+        </where>
+    </select>
 
-		<delete id="delete">
-			<![CDATA[
-			delete from SYSTEM.tbl_board where bno=#{bno}
+    <delete id="delete">
+        <![CDATA[
+			delete from tbl_board where bno=#{bno}
 			]]>
-		</delete>
+    </delete>
 
-		<update id="update">
-			<![CDATA[
-			update SYSTEM.tbl_board set title =#{title},content=#{content},writer=#{writer},updatedate=sysdate where bno=#{bno}
+    <update id="update">
+        <![CDATA[
+			update tbl_board set title =#{title},content=#{content},writer=#{writer},updatedate=sysdate where bno=#{bno}
 			]]>
-		</update>
+    </update>
 
-<!--	<sql id="criteria">-->
-<!--		<trim prefix="AND (" suffix=")" prefixOverrides="OR">-->
-<!--			<foreach item="type" collection="typeArr">-->
-<!--				<trim prefix="OR">-->
-<!--					<choose>-->
-<!--						<when test="type == 'T'.toString()">-->
-<!--							title like CONCAT('%', #{keyword}, '%')-->
-<!--						</when>-->
-<!--						<when test="type == 'C'.toString()">-->
-<!--							content like CONCAT('%', #{keyword}, '%')-->
-<!--						</when>-->
-<!--						<when test="type == 'W'.toString()">-->
-<!--							writer like CONCAT('%', #{keyword}, '%')-->
-<!--						</when>-->
-<!--					</choose>-->
-<!--				</trim>-->
-<!--			</foreach>-->
-<!--		</trim>-->
-<!--	</sql>-->
+    <!--	<sql id="criteria">-->
+    <!--		<trim prefix="AND (" suffix=")" prefixOverrides="OR">-->
+    <!--			<foreach item="type" collection="typeArr">-->
+    <!--				<trim prefix="OR">-->
+    <!--					<choose>-->
+    <!--						<when test="type == 'T'.toString()">-->
+    <!--							title like CONCAT('%', #{keyword}, '%')-->
+    <!--						</when>-->
+    <!--						<when test="type == 'C'.toString()">-->
+    <!--							content like CONCAT('%', #{keyword}, '%')-->
+    <!--						</when>-->
+    <!--						<when test="type == 'W'.toString()">-->
+    <!--							writer like CONCAT('%', #{keyword}, '%')-->
+    <!--						</when>-->
+    <!--					</choose>-->
+    <!--				</trim>-->
+    <!--			</foreach>-->
+    <!--		</trim>-->
+    <!--	</sql>-->
 
-<!--	<select id="getTotalCount" resultType="int">-->
-<!--		<![CDATA[-->
-<!--			SELECT count(*) -->
-<!--			FROM tbl_board-->
-<!--			WHERE bno > 0 -->
-<!--		]]>-->
+    <!--	<select id="getTotalCount" resultType="int">-->
+    <!--		<![CDATA[-->
+    <!--			SELECT count(*) -->
+    <!--			FROM tbl_board-->
+    <!--			WHERE bno > 0 -->
+    <!--		]]>-->
 
-<!--		<include refid="criteria" />-->
+    <!--		<include refid="criteria" />-->
 
-<!--	</select>-->
+    <!--	</select>-->
 
-<!--	<select id="getListWithPaging"-->
-<!--		resultType="org.zerock.domain.BoardVO">-->
-<!--		<![CDATA[-->
-<!--			SELECT * -->
-<!--			FROM tbl_board -->
-<!--			WHERE bno > 0-->
-<!--		]]>-->
+    <!--	<select id="getListWithPaging"-->
+    <!--		resultType="org.zerock.domain.BoardVO">-->
+    <!--		<![CDATA[-->
+    <!--			SELECT * -->
+    <!--			FROM tbl_board -->
+    <!--			WHERE bno > 0-->
+    <!--		]]>-->
 
-<!--		<include refid="criteria" />-->
+    <!--		<include refid="criteria" />-->
 
-<!--		ORDER BY bno DESC-->
-<!--		LIMIT #{pageStart}, #{amount}-->
+    <!--		ORDER BY bno DESC-->
+    <!--		LIMIT #{pageStart}, #{amount}-->
 
-<!--	</select>-->
-
-
+    <!--	</select>-->
 
 
+    <!--	<select id="getList" resultType="org.zerock.domain.BoardVO">-->
+    <!--		-->
+    <!--		<![CDATA[-->
+    <!--		SELECT * FROM tbl_board where bno > 0-->
+    <!--		]]>-->
+    <!--	</select>-->
 
-<!--	<select id="getList" resultType="org.zerock.domain.BoardVO">-->
-<!--		-->
-<!--		<![CDATA[-->
-<!--		SELECT * FROM tbl_board where bno > 0-->
-<!--		]]>-->
-<!--	</select>-->
+    <!--	<select id="read" resultType="org.zerock.domain.BoardVO">-->
+    <!--		<![CDATA[-->
+    <!--			SELECT * -->
+    <!--			FROM tbl_board -->
+    <!--		]]>-->
+    <!--		<where>-->
+    <!--			<if test="bno != null">-->
+    <!--				bno = #{bno}-->
+    <!--			</if>-->
+    <!--		</where>-->
+    <!--	</select>-->
 
-<!--	<select id="read" resultType="org.zerock.domain.BoardVO">-->
-<!--		<![CDATA[-->
-<!--			SELECT * -->
-<!--			FROM tbl_board -->
-<!--		]]>-->
-<!--		<where>-->
-<!--			<if test="bno != null">-->
-<!--				bno = #{bno}-->
-<!--			</if>-->
-<!--		</where>-->
-<!--	</select>-->
+    <!--	<insert id="insert" keyProperty="bno" useGeneratedKeys="true">-->
+    <!--		-->
+    <!--		<![CDATA[-->
+    <!--		insert into tbl_board(title, content, writer) values (#{title},#{content},#{writer})-->
+    <!--		]]>-->
+    <!--	</insert>-->
 
-<!--	<insert id="insert" keyProperty="bno" useGeneratedKeys="true">-->
-<!--		-->
-<!--		<![CDATA[-->
-<!--		insert into tbl_board(title, content, writer) values (#{title},#{content},#{writer})-->
-<!--		]]>-->
-<!--	</insert>-->
+    <!--	<insert id="insertSelectKey">-->
 
-<!--	<insert id="insertSelectKey">-->
+    <!--		<selectKey order="BEFORE" keyProperty="bno"-->
+    <!--			resultType="Long">-->
+    <!--			<![CDATA[-->
+    <!--			select MAX(bno)+1 from tbl_board-->
+    <!--			]]>-->
+    <!--		</selectKey>-->
+    <!--		<![CDATA[-->
+    <!--		insert into tbl_board(bno, title, content, writer) values (#{bno},#{title},#{content},#{writer})-->
+    <!--		]]>-->
+    <!--	</insert>-->
 
-<!--		<selectKey order="BEFORE" keyProperty="bno"-->
-<!--			resultType="Long">-->
-<!--			<![CDATA[-->
-<!--			select MAX(bno)+1 from tbl_board-->
-<!--			]]>-->
-<!--		</selectKey>-->
-<!--		<![CDATA[-->
-<!--		insert into tbl_board(bno, title, content, writer) values (#{bno},#{title},#{content},#{writer})-->
-<!--		]]>-->
-<!--	</insert>-->
+    <!--	<delete id="delete">-->
+    <!--		<![CDATA[-->
+    <!--		delete from tbl_board where bno=#{bno}-->
+    <!--		]]>-->
+    <!--	</delete>-->
 
-<!--	<delete id="delete">-->
-<!--		<![CDATA[-->
-<!--		delete from tbl_board where bno=#{bno}-->
-<!--		]]>-->
-<!--	</delete>-->
+    <!--	<update id="update">-->
+    <!--		<![CDATA[-->
+    <!--		update tbl_board set title =#{title},content=#{content},writer=#{writer},updatedate=now() where bno=#{bno}-->
+    <!--		]]>-->
+    <!--	</update>-->
+    <!--	-->
+    <!--	<update id="updateReplyCnt">-->
+    <!--		UPDATE tbl_board-->
+    <!--		SET replycnt=replycnt+#{amount}-->
+    <!--		WHERE bno=#{bno}-->
+    <!--	</update>-->
 
-<!--	<update id="update">-->
-<!--		<![CDATA[-->
-<!--		update tbl_board set title =#{title},content=#{content},writer=#{writer},updatedate=now() where bno=#{bno}-->
-<!--		]]>-->
-<!--	</update>-->
-<!--	-->
-<!--	<update id="updateReplyCnt">-->
-<!--		UPDATE tbl_board-->
-<!--		SET replycnt=replycnt+#{amount}-->
-<!--		WHERE bno=#{bno}-->
-<!--	</update>-->
-	
 </mapper>
