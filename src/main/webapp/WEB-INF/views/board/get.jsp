@@ -94,11 +94,26 @@
 						readonly="readonly">
 				</div>
 
-                <button data-oper="modify" class="btn btn-default">Modify</button>
+				<sec:authentication property="principal" var="pinfo" />
+				<sec:authorize access="isAuthenticated()">
+					<c:if test="${pinfo.username eq board.writer}">
+						<button data-oper="modify" class="btn btn-default">Modify</button>
+					</c:if>
+				</sec:authorize>
+
 				<button data-oper="list" class="btn btn-info">List</button>
-                <form id="operForm" action="/board/modify" method="get">
-                    <input type="hidden" id="bno" name="bno" value='<c:out value="${board.bno}" />' />
-                </form>
+
+				<form id="operForm" action="/board/modify" method="get">
+					<input type="hidden" id="bno" name="bno"
+						value='<c:out value="${board.bno}" />' /> <input type="hidden"
+						name="pageNum" value="<c:out value="${cri.pageNum}" />" /> <input
+						type="hidden" name="amount"
+						value="<c:out value="${cri.amount}" />" /> <input type="hidden"
+						name="type" value="<c:out value="${cri.type}" />" /> <input
+						type="hidden" name="keyword"
+						value="<c:out value="${cri.keyword}" />" />
+				</form>
+
 			</div>
 			<!-- /.panel-body -->
 		</div>
@@ -143,6 +158,10 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<i class="fa fa-comments fa-fw"></i> Reply
+				<sec:authorize access="isAuthenticated()">
+					<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New
+						Reply</button>
+				</sec:authorize>
 			</div>
 
 			<!-- /.panel-heading -->
@@ -162,35 +181,71 @@
 
 
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">REPLY MODAL</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>Reply</label> <input class="form-control" name='reply'
+						value='New Reply!!!!'>
+				</div>
+				<div class="form-group">
+					<label>Replyer</label> <input class="form-control" name='replyer'
+						value='replyer' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>Reply Date</label> <input class="form-control"
+						name='replydate' value='2018-01-01 13:13'>
+				</div>
 
+			</div>
+			<div class="modal-footer">
+				<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
+				<button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+				<button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
+				<button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+			</div>
+		</div>
+		<!— /.modal-content —>
+	</div>
+	<!— /.modal-dsialog —>
+</div>
+<!— /.modal —>
 <script type="text/javascript" src="/resources/js/reply.js?v=12"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		console.log("===================");
 		var bnoValue = '<c:out value='${board.bno}'/>';
-		
+
 		var replyUL = $(".chat");
-		
+
 		var pageNum = 1;
 		// panel-footer
 		var replyPageFooter = $(".panel-footer");
-		
+
 		showList(1);
-		
+
 		function showList(page){
 			replyService.getList(
 				{bno:bnoValue, page:page},
 				function(replyCnt, list){
-					
+
 					console.log("replyCnt : " + replyCnt);
 					console.log("list : " + list);
-					
+
 					if(page == -1){
 						pageNum = Math.ceil(replyCnt/10.0);
 						showList(pageNum);
 						return;
 					}
-					
+
 					var str = "";
 					if(list == null || list.length == 0){
 						replyUL.html("");
@@ -206,80 +261,76 @@
 					replyUL.html(str);
 					showReplyPage(replyCnt);
 				});
-			
+
 		} // func showList <end>
-		
+
 		function showReplyPage(replyCnt){
-			
+
 			var endNum = Math.ceil(pageNum / 10.0) * 10;
 			var startNum = endNum - 9;
-			
+
 			var prev = startNum != 1;
 			var next = false;
-			
+
 			if(endNum * 10 >= replyCnt){
 				endNum = Math.ceil(replyCnt/10.0);
 			}
-			
+
 			if(endNum * 10 < replyCnt){
 				next = true;
 			}
-			// pageNum : 820 
+			// pageNum : 820
 			// endNum : 819
 			if(endNum < pageNum){
 				pageNum = endNum;
 			}
-			
+
 			var str = "<ul class='pagination pull-right'>";
 			if(prev){
-				str += "<li class='page-item'><a class='page-link' href='"+(startNum-1)+"'>Previous</a></li> "; 
+				str += "<li class='page-item'><a class='page-link' href='"+(startNum-1)+"'>Previous</a></li> ";
 			}
-			
+
 			for(var i = startNum; i <= endNum; i++){
 				var active = (pageNum == i)?"active":"";
 				str += "<li class='page-item " + active + "'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
 			}
-			
+
 			if(next){
-				str += "<li class='page-item'><a class='page-link' href='"+(endNum+1)+"'>Next</a></li> "; 
+				str += "<li class='page-item'><a class='page-link' href='"+(endNum+1)+"'>Next</a></li> ";
 			}
-			
+
 			str += "</ul>";
-			
+
 			console.log(str);
-			
+
 			replyPageFooter.html(str);
-			
+
 		} // show reply page
-		
+
 		replyPageFooter.on("click", "li a", function(e){
 			e.preventDefault();
 			var targetPageNum = $(this).attr("href");
 			pageNum = targetPageNum;
 			showList(pageNum);
 		});
-		
+
 		var modal = $(".modal");
-		var modalInputReply 
+		var modalInputReply
 		= modal.find("input[name='reply']");
 		var modalInputReplyer
 		= modal.find("input[name='replyer']");
 		var modalInputReplyDate
 		= modal.find("input[name='replydate']");
-		
+
 		var modalModBtn = $("#modalModBtn");
 		var modalRemoveBtn = $("#modalRemoveBtn");
 		var modalRegisterBtn = $("#modalRegisterBtn");
-		
+
 		var replyer = null;
-		
-		<sec:authorize access="isAuthenticated()">
-		replyer = '<sec:authentication property="principal.username"/>';
-		</sec:authorize>
-		
+
 		var csrfHeaderName = "${_csrf.headerName}";
 		var csrfTokenValue = "${_csrf.token}";
-		
+
 		$(document).ajaxSend(function(e, xhr, options){
 			xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 		});

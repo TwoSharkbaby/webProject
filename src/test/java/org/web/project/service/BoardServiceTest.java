@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.web.project.domain.BoardVO;
+import org.web.project.domain.Criteria;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,5 +50,10 @@ public class BoardServiceTest {
     public void testUpdate(){
         BoardVO boardVO = BoardVO.builder().bno(1L).title("새로 작성하는 글1").content("새로 작성하는 내용1").writer("newbie").build();
         boardService.modify(boardVO);
+    }
+
+    @Test
+    public void testGetList2(){
+        boardService.getList(new Criteria(2, 10)).forEach(log::info);
     }
 }

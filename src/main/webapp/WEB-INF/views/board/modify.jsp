@@ -66,8 +66,12 @@
 			<div class="panel-heading">Board Modify Page</div>
 			<div class="panel-body">
 				<form action="/board/modify" method="post">
-
-
+                    <input type="hidden" name="pageNum"
+                        value="<c:out value="${cri.pageNum}" />" /> <input type="hidden"
+                        name="amount" value="<c:out value="${cri.amount}" />" /> <input
+                        type="hidden" name="type" value="<c:out value="${cri.type}" />" />
+                    <input type="hidden" name="keyword"
+                        value="<c:out value="${cri.keyword}" />" />
 
 					<div class="form-group">
 						<label>Bno</label> <input class="form-control" name="bno"
@@ -354,7 +358,7 @@
 												dataType : 'json',
 												success : function(result) {
 													console.log(result);
-													showUploadResult(result); //업로드 결과 처리 함수 
+													showUploadResult(result); //업로드 결과 처리 함수
 												}
 											}); //$.ajax
 
@@ -410,7 +414,7 @@
 													str += "<span> "
 															+ obj.fileName
 															+ "</span>";
-													str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' " 
+													str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' "
 				str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
 													str += "<img src='/resources/img/attach.png'></a>";
 													str += "</div>";

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.web.project.domain.BoardVO;
+import org.web.project.domain.Criteria;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,6 +51,25 @@ public class BoardMapperTest {
     public void testUpdate(){
         BoardVO boardVO = BoardVO.builder().bno(1L).title("새로 작성하는 글1").content("새로 작성하는 내용1").writer("newbie").build();
         boardMapper.update(boardVO);
+    }
+
+    @Test
+    public void testGetListWithPaging(){
+        Criteria cri = new Criteria();
+        cri.setPageNum(3);
+        cri.setAmount(10);
+        log.info(boardMapper.getListWithPaging(cri));
+
+    }
+
+    @Test
+    public void testSearch(){
+        Criteria cri = new Criteria();
+        cri.setKeyword("새로");
+        cri.setType("TCW");
+        log.info(boardMapper.getTotalCount(cri));
+        log.info(boardMapper.getListWithPaging(cri));
+
     }
 
 }

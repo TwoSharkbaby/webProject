@@ -3,6 +3,7 @@ package org.web.project.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.web.project.domain.BoardVO;
+import org.web.project.domain.Criteria;
 
 import java.util.List;
 
@@ -10,6 +11,10 @@ public interface BoardMapper {
 
 //    @Select("SELECT * FROM system.tbl_board")
     public List<BoardVO> getList();
+
+    public List<BoardVO> getListWithPaging(Criteria cri);
+
+    public int getTotalCount(Criteria cri);
 
     public void insert(BoardVO boardVO);
 
