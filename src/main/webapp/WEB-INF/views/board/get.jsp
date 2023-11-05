@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <style>
 .uploadResult {
 	width: 100%;
@@ -218,7 +220,7 @@
 	<!— /.modal-dsialog —>
 </div>
 <!— /.modal —>
-<script type="text/javascript" src="/resources/js/reply.js?v=12"></script>
+<script type="text/javascript" src="/resources/js/reply.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		console.log("===================");
@@ -327,6 +329,10 @@
 		var modalRegisterBtn = $("#modalRegisterBtn");
 
 		var replyer = null;
+
+		<sec:authorize access="isAuthenticated()">
+		replyer = '<sec:authentication property="principal.username"/>';
+		</sec:authorize>
 
 		var csrfHeaderName = "${_csrf.headerName}";
 		var csrfTokenValue = "${_csrf.token}";

@@ -5,128 +5,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.web.project.mapper.BoardMapper">
 
-    <select id="getList" resultType="org.web.project.domain.BoardVO">
-        <![CDATA[
-			SELECT * FROM system.tbl_board where bno > 0
-			]]>
-    </select>
-
-    <insert id="insert">
-        <![CDATA[
-			INSERT INTO SYSTEM.TBL_BOARD(BNO, TITLE, CONTENT, WRITER)
-			VALUES (SYSTEM.SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{writer})
-			]]>
-    </insert>
-
-    <insert id="insertSelectKey">
-        <selectKey keyProperty="bno" order="BEFORE"
-                   resultType="long">
-            SELECT SYSTEM.SEQ_BOARD.NEXTVAL FROM DUAL
-        </selectKey>
-        <![CDATA[
-			INSERT INTO SYSTEM.TBL_BOARD(BNO, TITLE, CONTENT, WRITER)
-			VALUES (#{bno}, #{title}, #{content}, #{writer})
-			]]>
-    </insert>
-
-    <select id="read" resultType="org.web.project.domain.BoardVO">
-        <![CDATA[
-				SELECT *
-				FROM SYSTEM.tbl_board
-			]]>
-        <where>
-            <if test="bno != null">
-                bno = #{bno}
-            </if>
-        </where>
-    </select>
-
-    <delete id="delete">
-        <![CDATA[
-			delete from SYSTEM.tbl_board where bno=#{bno}
-			]]>
-    </delete>
-
-    <update id="update">
-        <![CDATA[
-			update SYSTEM.tbl_board set title =#{title},content=#{content},writer=#{writer},updatedate=sysdate where bno=#{bno}
-			]]>
-    </update>
-
-    <select id="getListWithPaging" resultType="org.web.project.domain.BoardVO">
-        <![CDATA[
-			select bno, title, content, writer, regdate, updatedate
-            from (
-                select
-                    /*+ index_desc(SYSTEM.tbl_board pk_board) */
-                    rownum rn, bno, title, content, writer, regdate, updatedate
-                from SYSTEM.tbl_board
-                where
-            ]]>
-            <include refid="criteria"></include>
-        <![CDATA[
-                rownum <= #{pageNum} * #{amount} and bno > 0
-                )
-            where rn > (#{pageNum} -1) * #{amount}
-			]]>
-    </select>
-
-    <select id="getTotalCount" resultType="int">
-        <![CDATA[
-            SELECT count(*)
-            FROM SYSTEM.tbl_board
-            WHERE
-            ]]>
-            <include refid="criteria"></include>
-        <![CDATA[
-            bno > 0
-        ]]>
-    </select>
-
-    <sql id="criteria">
-        <trim prefix="(" suffix=") and " prefixOverrides="or">
-            <foreach collection="typeArr" item="type">
-                <trim prefix="or">
-                    <choose>
-                        <when test="type == 'T'.toString()">
-                            title like '%'||#{keyword}||'%'
-                        </when>
-                        <when test="type == 'C'.toString()">
-                            content like '%'||#{keyword}||'%'
-                        </when>
-                        <when test="type == 'W'.toString()">
-                            writer like '%'||#{keyword}||'%'
-                        </when>
-                    </choose>
-                </trim>
-            </foreach>
-        </trim>
-    </sql>
-
-	<!-- -->
-	<!-- -->
-	<!-- -->
+    <!-- 맥북 -->
+    <!-- 맥북 -->
+    <!-- 맥북 -->
 
 <!--    <select id="getList" resultType="org.web.project.domain.BoardVO">-->
 <!--        <![CDATA[-->
-<!--			SELECT * FROM tbl_board where bno > 0-->
+<!--			SELECT * FROM system.tbl_board where bno > 0-->
 <!--			]]>-->
 <!--    </select>-->
 
 <!--    <insert id="insert">-->
 <!--        <![CDATA[-->
-<!--			INSERT INTO TBL_BOARD(BNO, TITLE, CONTENT, WRITER)-->
-<!--			VALUES (SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{writer})-->
+<!--			INSERT INTO SYSTEM.TBL_BOARD(BNO, TITLE, CONTENT, WRITER)-->
+<!--			VALUES (SYSTEM.SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{writer})-->
 <!--			]]>-->
 <!--    </insert>-->
 
 <!--    <insert id="insertSelectKey">-->
 <!--        <selectKey keyProperty="bno" order="BEFORE"-->
 <!--                   resultType="long">-->
-<!--            SELECT SEQ_BOARD.NEXTVAL FROM DUAL-->
+<!--            SELECT SYSTEM.SEQ_BOARD.NEXTVAL FROM DUAL-->
 <!--        </selectKey>-->
 <!--        <![CDATA[-->
-<!--			INSERT INTO TBL_BOARD(BNO, TITLE, CONTENT, WRITER)-->
+<!--			INSERT INTO SYSTEM.TBL_BOARD(BNO, TITLE, CONTENT, WRITER)-->
 <!--			VALUES (#{bno}, #{title}, #{content}, #{writer})-->
 <!--			]]>-->
 <!--    </insert>-->
@@ -134,7 +36,7 @@
 <!--    <select id="read" resultType="org.web.project.domain.BoardVO">-->
 <!--        <![CDATA[-->
 <!--				SELECT *-->
-<!--				FROM tbl_board-->
+<!--				FROM SYSTEM.tbl_board-->
 <!--			]]>-->
 <!--        <where>-->
 <!--            <if test="bno != null">-->
@@ -145,15 +47,173 @@
 
 <!--    <delete id="delete">-->
 <!--        <![CDATA[-->
-<!--			delete from tbl_board where bno=#{bno}-->
+<!--			delete from SYSTEM.tbl_board where bno=#{bno}-->
 <!--			]]>-->
 <!--    </delete>-->
 
 <!--    <update id="update">-->
 <!--        <![CDATA[-->
-<!--			update tbl_board set title =#{title},content=#{content},writer=#{writer},updatedate=sysdate where bno=#{bno}-->
+<!--			update SYSTEM.tbl_board set title =#{title},content=#{content},writer=#{writer},updatedate=sysdate where bno=#{bno}-->
 <!--			]]>-->
 <!--    </update>-->
+
+<!--    <select id="getListWithPaging" resultType="org.web.project.domain.BoardVO">-->
+<!--        <![CDATA[-->
+<!--			select bno, title, content, writer, regdate, updatedate-->
+<!--            from (-->
+<!--                select-->
+<!--                    /*+ index_desc(SYSTEM.tbl_board pk_board) */-->
+<!--                    rownum rn, bno, title, content, writer, regdate, updatedate-->
+<!--                from SYSTEM.tbl_board-->
+<!--                where-->
+<!--            ]]>-->
+<!--            <include refid="criteria"></include>-->
+<!--        <![CDATA[-->
+<!--                rownum <= #{pageNum} * #{amount} and bno > 0-->
+<!--                )-->
+<!--            where rn > (#{pageNum} -1) * #{amount}-->
+<!--			]]>-->
+<!--    </select>-->
+
+<!--    <select id="getTotalCount" resultType="int">-->
+<!--        <![CDATA[-->
+<!--            SELECT count(*)-->
+<!--            FROM SYSTEM.tbl_board-->
+<!--            WHERE-->
+<!--            ]]>-->
+<!--            <include refid="criteria"></include>-->
+<!--        <![CDATA[-->
+<!--            bno > 0-->
+<!--        ]]>-->
+<!--    </select>-->
+
+<!--    <sql id="criteria">-->
+<!--        <trim prefix="(" suffix=") and " prefixOverrides="or">-->
+<!--            <foreach collection="typeArr" item="type">-->
+<!--                <trim prefix="or">-->
+<!--                    <choose>-->
+<!--                        <when test="type == 'T'.toString()">-->
+<!--                            title like '%'||#{keyword}||'%'-->
+<!--                        </when>-->
+<!--                        <when test="type == 'C'.toString()">-->
+<!--                            content like '%'||#{keyword}||'%'-->
+<!--                        </when>-->
+<!--                        <when test="type == 'W'.toString()">-->
+<!--                            writer like '%'||#{keyword}||'%'-->
+<!--                        </when>-->
+<!--                    </choose>-->
+<!--                </trim>-->
+<!--            </foreach>-->
+<!--        </trim>-->
+<!--    </sql>-->
+
+	<!-- 집 -->
+	<!-- 집 -->
+	<!-- 집 -->
+
+    <select id="getList" resultType="org.web.project.domain.BoardVO">
+        <![CDATA[
+			SELECT * FROM tbl_board where bno > 0
+			]]>
+    </select>
+
+    <insert id="insert">
+        <![CDATA[
+			INSERT INTO TBL_BOARD(BNO, TITLE, CONTENT, WRITER)
+			VALUES (SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{writer})
+			]]>
+    </insert>
+
+    <insert id="insertSelectKey">
+        <selectKey keyProperty="bno" order="BEFORE"
+                   resultType="long">
+            SELECT SEQ_BOARD.NEXTVAL FROM DUAL
+        </selectKey>
+        <![CDATA[
+			INSERT INTO TBL_BOARD(BNO, TITLE, CONTENT, WRITER)
+			VALUES (#{bno}, #{title}, #{content}, #{writer})
+			]]>
+    </insert>
+
+    <select id="read" resultType="org.web.project.domain.BoardVO">
+        <![CDATA[
+				SELECT *
+				FROM tbl_board
+			]]>
+        <where>
+            <if test="bno != null">
+                bno = #{bno}
+            </if>
+        </where>
+    </select>
+
+    <delete id="delete">
+        <![CDATA[
+			delete from tbl_board where bno=#{bno}
+			]]>
+    </delete>
+
+    <update id="update">
+        <![CDATA[
+			update tbl_board set title =#{title},content=#{content},writer=#{writer},updatedate=sysdate where bno=#{bno}
+			]]>
+    </update>
+
+        <select id="getListWithPaging" resultType="org.web.project.domain.BoardVO">
+            <![CDATA[
+    			select bno, title, content, writer, regdate, updatedate, replycnt
+                from (
+                    select
+                        /*+ index_desc(tbl_board pk_board) */
+                        rownum rn, bno, title, content, writer, regdate, updatedate, replycnt
+                    from tbl_board
+                    where
+                ]]>
+                <include refid="criteria"></include>
+            <![CDATA[
+                    rownum <= #{pageNum} * #{amount} and bno > 0
+                    )
+                where rn > (#{pageNum} -1) * #{amount}
+    			]]>
+        </select>
+
+        <select id="getTotalCount" resultType="int">
+            <![CDATA[
+                SELECT count(*)
+                FROM tbl_board
+                WHERE
+                ]]>
+                <include refid="criteria"></include>
+            <![CDATA[
+                bno > 0
+            ]]>
+        </select>
+
+        <sql id="criteria">
+            <trim prefix="(" suffix=") and " prefixOverrides="or">
+                <foreach collection="typeArr" item="type">
+                    <trim prefix="or">
+                        <choose>
+                            <when test="type == 'T'.toString()">
+                                title like '%'||#{keyword}||'%'
+                            </when>
+                            <when test="type == 'C'.toString()">
+                                content like '%'||#{keyword}||'%'
+                            </when>
+                            <when test="type == 'W'.toString()">
+                                writer like '%'||#{keyword}||'%'
+                            </when>
+                        </choose>
+                    </trim>
+                </foreach>
+            </trim>
+        </sql>
+
+        <update id="updateReplyCnt">
+            <![CDATA[
+                update tbl_board set replycnt = replycnt + #{amount} where bno = #{bno}
+            ]]>
+        </update>
 
     <!-- -->
     <!-- -->

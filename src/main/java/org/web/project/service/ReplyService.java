@@ -1,6 +1,7 @@
 package org.web.project.service;
 
 
+import org.apache.ibatis.annotations.Param;
 import org.web.project.domain.Criteria;
 import org.web.project.domain.ReplyPageDTO;
 import org.web.project.domain.ReplyVO;
@@ -18,10 +19,7 @@ public interface ReplyService {
 	public ReplyVO get(Long rno);
 	
 	public int modify(ReplyVO reply);
-	
-//	public int remove(ReplyVO reply);
 
-	public int remove(Long rno);
-	
-	
+	public int remove(ReplyVO reply);
+
 }

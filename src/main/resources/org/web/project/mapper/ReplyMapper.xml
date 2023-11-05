@@ -3,14 +3,73 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.web.project.mapper.ReplyMapper">
+
+	<!-- 맥북 -->
+	<!-- 맥북 -->
+	<!-- 맥북 -->
 	
+<!--	<select id="getListWithPaging" resultType="org.web.project.domain.ReplyVO">-->
+<!--		<![CDATA[-->
+<!--		SELECT bno, rno, reply, replyer, replyDate, updatedate-->
+<!--		FROM (-->
+<!--			select /*+ index(system.tbl_reply idx_reply) */-->
+<!--				rownum rm, bno, rno, reply, replyer, replyDate, updatedate-->
+<!--				from SYSTEM.tbl_reply-->
+<!--				where bno = #{bno}-->
+<!--				and rno > 0-->
+<!--				and rownum <= #{cri.pageNum} * #{cri.amount}-->
+<!--			)-->
+<!--		where rm > (#{cri.pageNum} -1) * #{cri.amount}-->
+<!--		]]>-->
+<!--	</select>-->
+<!--	-->
+<!--	<select id="getCountByBno" resultType="int">-->
+<!--		SELECT count(rno) -->
+<!--		FROM SYSTEM.tbl_reply-->
+<!--		WHERE bno = #{bno}-->
+<!--	</select>-->
+<!--	-->
+<!--	<update id="update">-->
+<!--		UPDATE SYSTEM.tbl_reply-->
+<!--		SET reply = #{reply} ,updatedate = sysdate-->
+<!--		WHERE rno=#{rno}-->
+<!--	</update>-->
+<!--	-->
+<!--	<delete id="delete">-->
+<!--		DELETE FROM SYSTEM.tbl_reply-->
+<!--		WHERE rno = #{rno}-->
+<!--	</delete>-->
+<!--	-->
+<!--	<delete id="deleteAll">-->
+<!--		delete from SYSTEM.tbl_reply where bno=#{bno}-->
+<!--	</delete>-->
+<!--	-->
+<!--	<select id="read" resultType="org.web.project.domain.ReplyVO">-->
+<!--		SELECT * FROM SYSTEM.tbl_reply-->
+<!--		WHERE rno = #{rno}-->
+<!--	</select>-->
+<!--	-->
+<!--	<insert id="insert">-->
+<!--		INSERT INTO SYSTEM.tbl_reply (rno, bno, reply, replyer)-->
+<!--		VALUES (SYSTEM.seq_reply.nextval, #{bno}, #{reply}, #{replyer})-->
+<!--	</insert>-->
+<!--	-->
+<!--	<select id="getReplyById" resultType="org.web.project.domain.ReplyVO">-->
+<!--		SELECT * FROM SYSTEM.tbl_reply-->
+<!--		WHERE rno = #{rno} and replyer = #{replyer}-->
+<!--	</select>-->
+
+	<!-- 집 -->
+	<!-- 집 -->
+	<!-- 집 -->
+
 	<select id="getListWithPaging" resultType="org.web.project.domain.ReplyVO">
 		<![CDATA[
 		SELECT bno, rno, reply, replyer, replyDate, updatedate
 		FROM (
-			select /*+ index(system.tbl_reply idx_reply) */
+			select /*+ index(tbl_reply idx_reply) */
 				rownum rm, bno, rno, reply, replyer, replyDate, updatedate
-				from SYSTEM.tbl_reply
+				from tbl_reply
 				where bno = #{bno}
 				and rno > 0
 				and rownum <= #{cri.pageNum} * #{cri.amount}
@@ -18,40 +77,40 @@
 		where rm > (#{cri.pageNum} -1) * #{cri.amount}
 		]]>
 	</select>
-	
+
 	<select id="getCountByBno" resultType="int">
-		SELECT count(rno) 
-		FROM SYSTEM.tbl_reply
+		SELECT count(rno)
+		FROM tbl_reply
 		WHERE bno = #{bno}
 	</select>
-	
+
 	<update id="update">
-		UPDATE SYSTEM.tbl_reply
+		UPDATE tbl_reply
 		SET reply = #{reply} ,updatedate = sysdate
 		WHERE rno=#{rno}
 	</update>
-	
+
 	<delete id="delete">
-		DELETE FROM SYSTEM.tbl_reply
+		DELETE FROM tbl_reply
 		WHERE rno = #{rno}
 	</delete>
-	
+
 	<delete id="deleteAll">
-		delete from SYSTEM.tbl_reply where bno=#{bno}
+		delete from tbl_reply where bno=#{bno}
 	</delete>
-	
+
 	<select id="read" resultType="org.web.project.domain.ReplyVO">
-		SELECT * FROM SYSTEM.tbl_reply
+		SELECT * FROM tbl_reply
 		WHERE rno = #{rno}
 	</select>
-	
+
 	<insert id="insert">
-		INSERT INTO SYSTEM.tbl_reply (rno, bno, reply, replyer)
-		VALUES (SYSTEM.seq_reply.nextval, #{bno}, #{reply}, #{replyer})
+		INSERT INTO tbl_reply (rno, bno, reply, replyer)
+		VALUES (seq_reply.nextval, #{bno}, #{reply}, #{replyer})
 	</insert>
-	
+
 	<select id="getReplyById" resultType="org.web.project.domain.ReplyVO">
-		SELECT * FROM SYSTEM.tbl_reply
+		SELECT * FROM tbl_reply
 		WHERE rno = #{rno} and replyer = #{replyer}
 	</select>
 	

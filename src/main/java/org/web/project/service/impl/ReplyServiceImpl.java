@@ -40,7 +40,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public int register(ReplyVO reply) {
         log.info(".......register = " + reply);
-//		boardMapper.updateReplyCnt(reply.getBno(), 1);
+		boardMapper.updateReplyCnt(reply.getBno(), 1);
         return replyMapper.insert(reply);
     }
 
@@ -57,24 +57,17 @@ public class ReplyServiceImpl implements ReplyService {
         return replyMapper.update(reply);
     }
 
-//	@Transactional
-//	@Override
-//	public int remove(ReplyVO vo) {
-//		log.info("..........remove = " + vo.getRno());
-//		ReplyVO reply = replyMapper.getReplyById(vo);
-//		if(reply != null) {
-//			boardMapper.updateReplyCnt(reply.getBno(), -1);
-//			return replyMapper.delete(reply.getRno());
-//		}
-//		return 0;
-//	}
-
     @Transactional
     @Override
-    public int remove(Long rno) {
-        return replyMapper.delete(rno);
+    public int remove(ReplyVO vo) {
+        log.info("..........remove = " + vo.getRno());
+        ReplyVO reply = replyMapper.getReplyById(vo);
+        if(reply != null) {
+            boardMapper.updateReplyCnt(reply.getBno(), -1);
+            return replyMapper.delete(reply.getRno());
+        }
+        return 0;
     }
-
 
 }
 

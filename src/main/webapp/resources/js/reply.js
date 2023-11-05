@@ -22,10 +22,11 @@ var replyService = (function() {
   }
 
   function getList(param, callback, error){
+       console.log("여기는됨")
       var bno = param.bno;
       var page = param.page || 1;
       $.getJSON( 
-          "/replies/pages/"+bno+"/"+page+".json",
+          "/replies/pages/"+bno+"/"+page,
           function(data){ // ReplyPageDTO
             if(callback){
               callback(data.replyCnt, data.list);

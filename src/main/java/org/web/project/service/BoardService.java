@@ -1,5 +1,6 @@
 package org.web.project.service;
 
+import org.web.project.domain.BoardAttachVO;
 import org.web.project.domain.BoardVO;
 import org.web.project.domain.Criteria;
 
@@ -20,4 +21,8 @@ public interface BoardService {
     public List<BoardVO> getList(Criteria cri);
 
     public int getTotal(Criteria cri);
+
+    public List<BoardAttachVO> getAttachList(Long bno);
+
+
 }

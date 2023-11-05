@@ -16,6 +16,7 @@ public class CommonExceptionAdvice {
         // WEB-INF/views/error_page.jsp
         log.info("Exception...............");
         model.addAttribute("exception", ex);
+        log.info(ex.getMessage());
         return "error_page";
     }
 

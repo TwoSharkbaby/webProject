@@ -1,7 +1,7 @@
 package org.web.project.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+
+import org.apache.ibatis.annotations.Param;
 import org.web.project.domain.BoardVO;
 import org.web.project.domain.Criteria;
 
@@ -25,4 +25,7 @@ public interface BoardMapper {
     public int delete(Long bno);
 
     public int update(BoardVO boardVO);
+
+    public void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
+
 }

@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.web.project.domain.Criteria;
 import org.web.project.domain.ReplyPageDTO;
@@ -20,7 +21,7 @@ public class ReplyController {
 
 	private final ReplyService replyService;
 
-//	@PreAuthorize("principal.username == #vo.replyer")
+	@PreAuthorize("principal.username == #vo.replyer")
 	@RequestMapping(
 			value = "/{rno}", 
 			consumes = "application/json", 
@@ -35,18 +36,11 @@ public class ReplyController {
 		: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-//	@PreAuthorize("principal.username == #vo.replyer")
-//	@DeleteMapping(value = "/{rno}", produces = { MediaType.TEXT_PLAIN_VALUE })
-//	public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno) {
-//		log.info("remove : " + rno);
-//		return replyService.remove(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
-//				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
-
+	@PreAuthorize("principal.username == #vo.replyer")
 	@DeleteMapping(value = "/{rno}", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
+	public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno) {
 		log.info("remove : " + rno);
-		return replyService.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return replyService.remove(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
@@ -64,7 +58,7 @@ public class ReplyController {
 		return new ResponseEntity<>(replyService.getListPage(cri, bno), HttpStatus.OK);
 	}
 
-//	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/new", 
 			consumes = "application/json", 
 			produces = { MediaType.TEXT_PLAIN_VALUE })
